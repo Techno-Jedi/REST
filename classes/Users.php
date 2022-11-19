@@ -14,12 +14,15 @@ class Users extends Model{
           };
           return $users;
      }
-    public function updateUser($name){
-      $user = Database::query( "UPDATE `users` SET `id`='[value-1]',`name`='[value-2]' WHERE 1");
-    return $user;
-    } 
-
-    public function deleteUser(){
-        Database::query( "DELETE FROM `users` WHERE id");
-    }
+        public function updateUser($name){
+            $query = Database::query( "UPDATE `users` SET `name`= '$name'  WHERE `users`.`id` = '56'");
+             $users =[];
+             while($row = Database::fetch($query)){
+                 $users[] = $row;
+               };
+               return json_encode($users);
+        }
+        public function deleteUser(){
+                    $query = Database::query( "DELETE FROM `users` WHERE id=68 ");
+                }
 }
