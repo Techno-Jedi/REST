@@ -3,9 +3,9 @@ require_once("classes/DB.php");
 require_once("classes/Users.php");
 require_once("classes/Model.php");
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-  if (isset($_GET["id"])) {
+  if (isset($_REQUEST["id"])) {
     $user = new Users();
-    $showUsers = $user->getUser();
+    $showUsers = $user->getUser($_REQUEST["id"]);
     echo "<pre>";
     print_r($showUsers);
     echo "</pre>";
@@ -14,21 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   }
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $user = new Users();
-  $data = file_get_contents("php://input");
-  $user->createUser($data);
-  $showUsers = $user->getUser();
-  echo "<pre>";
-  print_r($showUsers);
-  echo "</pre>";
+  $user->createUser($_REQUEST["name"]);
 
 } else if ($_SERVER["REQUEST_METHOD"] == "PUT") {
   $user = new Users();
-  $showUsers = $user->getUser();
-  $data = file_get_contents("php://input");
-  print_r($data);
+  $data = ['id'=>$_REQUEST["id"], 'name'=>$_REQUEST["name"]];
   $user->updateUser($data);
+
 } else if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
   $user = new Users();
-  $id = file_get_contents("php://input");
-  $user->deleteUser($id);
+  $user->deleteUser($_REQUEST["id"]);
 }
